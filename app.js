@@ -30,38 +30,6 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/products", productRoutes);
 
-var collection = mongoose.DATABASE("sample_mflix").collection("movies");
-
-app.get("api/products/search", async (req, res) => {
-    try {
-        let result = await collection.aggregate([
-            {
-                "$search": {
-                    "text": {
-                        "query": `${req.body.search}`,
-                        "path": "plot",
-                        "fuzzy": {
-                            "maxEdits": 2
-                        }
-                    },
-                    "highlight": {
-                        "path": "plot"
-                    }
-                }
-            },
-            //{
-            //    "$addFields": {
-            //        "highlights": {
-            //            "$meta": "searchHighlights"
-            //        }
-            //    }
-            //}
-        ]).toArray();
-        res.json(result);
-    } catch (e) {
-        res.status(500).send({ message: e.message });
-    }
-});
 
 const port = process.env.PORT || 4001;
 //Starting a server 
