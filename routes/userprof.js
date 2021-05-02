@@ -63,6 +63,127 @@ router.delete('/:id', /*, issignedin, isretailer,*/ async (req,res) =>{
 });
 
 
+router.get('/addtocart/:id/:productId',  async(req, res) => {
+
+    const userInfo = await users.findOne({ _id: req.params.id});
+    const productInfo = await products.findOne({ _id: req.params.productId});
+    
+        let duplicate = false;
+        userInfo.cart.forEach((item) =>{
+            if (item.id == req.params.productId) {
+                duplicate = true;
+            }
+        })
+        
+       
+        if (duplicate) {
+            users.findOneAndUpdate(
+                { _id: req.params.id, "cart.id": req.params.productId },
+                { $inc: { "cart.$.quantity": 1 } },
+                 { new: true },
+                (err, userInfo) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json(userInfo.cart)
+                }
+            )
+        }
+        
+        else {
+            console.log("else part")
+            users.findOneAndUpdate(
+                { _id: req.params.id },
+                {
+                    $push: {
+                        cart: {
+                            id: req.params.productId,
+                            product:productInfo,
+                            quantity: 1,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true },
+                (err, userInfo) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json(userInfo.cart)
+                }
+            )
+            
+        }
+    
+});
+
+router.get('/removefromCart/:id/:productId',  async(req, res) => {
+    
+    users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+            "$pull":
+                { "cart": { "id": req.params.productId } }
+        },
+        { new: true },
+        (err, userInfo) => {
+            if (err) return res.json({ success: false, err });
+            res.status(200).json(userInfo.cart)
+        }
+     
+    )
+})
+
+//606dd40ab38a536484f062db
+//6066f41789350f21e06b0440
+
+router.get('/purchase/:id', async(req, res) => {
+
+    const userInfo = await users.findOne({ _id: req.params.id});
+        
+     
+            
+            users.findOneAndUpdate(
+                {_id:req.params.id},
+                {
+
+                    $push:
+                    {
+                        purchases:
+                        {
+                            "$each":userInfo.cart
+                        }
+                    },
+                    $set: 
+                    { 
+                         cart: [] 
+                    }
+                    
+                },
+                {new:true},
+                (err, userInfo) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json(userInfo.purchases)
+                }
+
+            )
+});
+
+router.get('/resetpurchase/:id',  async(req, res) => {
+
+        users.findOneAndUpdate(
+                { _id: req.params.id },
+                {
+                    
+                    $set: 
+                    { 
+                        purchases: [] 
+                    }
+                },
+                { new: true },
+                (err, userInfo) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json(userInfo.purchases)
+                }
+            )
+});
+
 
 
 module.exports = router;
