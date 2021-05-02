@@ -10,24 +10,27 @@ const products = require('../models/product');
 
 const router = express.Router();
 
-router.get("/search", async (req, res) => {
+router.get("/search/:item", async (req, res) => {
     try {
-        let result = await movies.aggregate([
+        //console.log(req.params.item);
+        //console.log(req.body);
+        let result = await products.aggregate([
             {
                 "$search": {
                     "text": {
-                        "query": `${req.body.search}`,
-                        "path": "plot",
+                        "query": `${req.params.item}`,
+                        "path": "des",
                         "fuzzy": {
                             "maxEdits": 2
                         }
                     },
                     "highlight": {
-                        "path": "plot"
+                        "path": "des"
                     }
                 }
             },
-        ]).toArray();
+        ]);
+        //console.log(result);
         res.json(result);
     } catch (e) {
         res.status(500).send({ message: e.message });
