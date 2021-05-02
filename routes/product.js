@@ -37,6 +37,25 @@ router.get("/search/:item", async (req, res) => {
     }
 });
 
+router.get('/shop', async (req,res) => {
+    
+    try{
+        console.log(req.body.cat);
+        if(req.body.cat!=null){
+            product = await products.find({ cat: req.body.cat});
+        }
+        else if(req.body.brandname!=null){
+            product = await products.find({ brandname: req.body.brandname});
+        }
+        else if(req.body.title!=null){
+            product = await products.find({ title: req.body.title});
+        }
+        res.json(product);
+    }catch(err){
+        res.json({ msg: 'Product not found' });
+    }
+
+});
 
 router.get('/:id', async (req,res) => {
 
