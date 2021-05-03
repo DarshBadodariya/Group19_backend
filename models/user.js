@@ -49,7 +49,11 @@ const uuidv1 = require('uuid/v1');
     cart: {
         type: Array,
         default: []
-    }
+    },
+    fav: {
+        type: Array,
+        default: []
+    },
     
   },
   {timestamps: true}
