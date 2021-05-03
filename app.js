@@ -9,8 +9,9 @@ const User = require("./models/user");
 
 
 const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/userprof");
 const productRoutes = require("./routes/product");
+const userfav = require("./routes/userfav")
 
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser: true,
@@ -29,6 +30,7 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api",userfav)
 
 
 const port = process.env.PORT || 4001;

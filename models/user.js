@@ -49,7 +49,11 @@ const crypto = require('crypto');
     cart: {
         type: Array,
         default: []
-    }
+    },
+    fav: {
+        type: Array,
+        default: []
+    },
     
   },
   {timestamps: true}
