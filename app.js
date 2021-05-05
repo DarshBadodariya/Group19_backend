@@ -5,12 +5,26 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const fileUpload = require('express-fileupload')
+const path=require('path')
+
 const User = require("./models/user");
 
+app.use(fileUpload({
+    useTempFiles : true,
+    //tempFileDir : '/tmp/'
+}));
+/*
+app.use((req, res, next) => {
+    console.log("user :  " + req.user + " ===== files : " + req.files);
+    next();
+})
+*/
 
 const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/userprof");
 const productRoutes = require("./routes/product");
+const uploadRoutes=require("./routes/upload");
 
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser: true,
@@ -25,11 +39,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
-
+app.use("/api",uploadRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/products", productRoutes);
 
+<<<<<<< Updated upstream
 var collection = mongoose.DATABASE("sample_mflix").collection("movies");
 
 app.get("api/products/search", async (req, res) => {
@@ -61,6 +76,10 @@ app.get("api/products/search", async (req, res) => {
     } catch (e) {
         res.status(500).send({ message: e.message });
     }
+=======
+app.get('/',(req,res)=>{
+    res.send("HEllo welcome to the server");
+>>>>>>> Stashed changes
 });
 
 const port = process.env.PORT || 4001;
