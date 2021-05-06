@@ -9,12 +9,9 @@ const User = require("./models/user");
 
 
 const authRoutes = require("./routes/auth");
-<<<<<<< Updated upstream
-const userRoutes = require("./routes/user");
-=======
-const userprofile = require("./routes/userprof");
->>>>>>> Stashed changes
+const userRoutes = require("./routes/userprof");
 const productRoutes = require("./routes/product");
+const userfav = require("./routes/userfav")
 
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser: true,
@@ -31,12 +28,14 @@ app.use(cors());
 
 
 app.use("/api", authRoutes);
-app.use("/api/userprof", userprofile);
+app.use("/api", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api",userfav)
 
 
 const port = process.env.PORT || 4001;
 //Starting a server 
 app.listen(port, () =>{
+    //collection = DATABASE.db("sample_mflix").collection("movies");
     console.log(`app is running at ${port}`);
 })
