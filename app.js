@@ -20,6 +20,7 @@ const productRoutes = require("./routes/product");
 const userfav = require("./routes/userfav")
 const uploadRoutes=require('./routes/upload');
 
+
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -39,6 +40,7 @@ app.use("/api/userprof", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api",userfav)
 app.use("/api",uploadRoutes);
+
 
 
 const port = process.env.PORT || 4001;
