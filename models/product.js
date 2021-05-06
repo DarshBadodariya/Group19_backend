@@ -50,7 +50,14 @@ var productSchema = new mongoose.Schema({
         type: Array,
         default: [],
         required: true
-    }
+    },
+    images:{
+        type: Object,
+        required: true
+    },
+    
+   
+    
 });
 
 module.exports = mongoose.model("product",productSchema)
