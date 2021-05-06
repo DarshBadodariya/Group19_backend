@@ -113,6 +113,26 @@ router.get('/addtocart/:id/:productId',  async(req, res) => {
     
 });
 
+router.get('/mycart/:id', async(req,res) => {
+
+    const userInfo = await users.findOne({ _id: req.params.id});
+    if(userInfo){
+        const mycart = userInfo.cart;
+        if(mycart!=null){
+            return res.json(mycart);
+            //console.log(mycart);
+        }
+        else{
+            return res.json({ msg: 'cart is empty' });
+            //console.log({msg: 'cart is empty'});
+        }
+    }
+    else{
+        return res.json({msg: 'user not found'});
+        //console.log({msg: "cart is empty"});
+    }
+});
+
 router.get('/removefromCart/:id/:productId',  async(req, res) => {
     
     users.findOneAndUpdate(
