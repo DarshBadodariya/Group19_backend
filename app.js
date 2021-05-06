@@ -28,7 +28,7 @@ app.use(cors());
 
 
 app.use("/api", authRoutes);
-app.use("/api", userRoutes);
+app.use("/api/userprof", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api",userfav)
 
