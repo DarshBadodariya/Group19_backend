@@ -160,6 +160,44 @@ router.post('/', /*, issignedin, isretailer,*/ (req,res) => {
 
 });
 
+// shopy by cat
+router.get('/cat/:shopby', async (req,res) => {
+
+    try{
+        const product = await products.find({ cat: req.params.shopby});
+        res.json(product);
+    }catch(err){
+        res.json({ msg: 'Product not found' });
+    }
+
+});
+
+// shopy by brandname
+router.get('/brand/:shopby', async (req,res) => {
+
+    try{
+        console.log(req.params);
+        const product = await products.find({ brandname: req.params.shopby});
+        console.log(product);
+        res.json(product);
+    }catch(err){
+        res.json({ msg: 'Product not found' });
+    }
+
+});
+
+// shopy by product
+router.get('/product/:shopby', async (req,res) => {
+
+    try{
+        const product = await products.find({ tags: req.params.shopby});
+        res.json(product);
+    }catch(err){
+        res.json({ msg: 'Product not found' });
+    }
+
+});
+
 
 
 module.exports = router;
