@@ -54,6 +54,10 @@ const crypto = require('crypto');
         type: Array,
         default: []
     },
+
+    address: {
+        type: String,
+    }
     
   },
   {timestamps: true}
