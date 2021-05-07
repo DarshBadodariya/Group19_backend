@@ -19,7 +19,7 @@ var productSchema = new mongoose.Schema({
 
     cat: {
         type: String,
-        enum: ["men", "women", "kids"],
+        enum: ["men", "women", "kids", "traditional"],
     },
 
     brandname: {
