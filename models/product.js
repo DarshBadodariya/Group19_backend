@@ -51,12 +51,13 @@ var productSchema = new mongoose.Schema({
         default: [],
         required: true
     },
-    images:{
-        type: Object,
-        required: true
+    imageid:{
+        type: String
     },
-    
-   
+
+    imageurl:{
+        type: String
+    }
     
 });
 
