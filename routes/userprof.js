@@ -63,7 +63,7 @@ router.delete('/:id', /*, issignedin, isretailer,*/ async (req,res) =>{
 });
 
 
-router.get('/addtocart/:id/:productId',  async(req, res) => {
+router.post('/addtocart/:id/:productId',  async(req, res) => {
 
     const userInfo = await users.findOne({ _id: req.params.id});
     const productInfo = await products.findOne({ _id: req.params.productId});
