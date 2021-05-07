@@ -42,7 +42,7 @@ app.use("/api",userfav)
 app.use("/api",uploadRoutes);
 
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 //Starting a server 
 app.listen(port, () =>{
     //collection = DATABASE.db("sample_mflix").collection("movies");
