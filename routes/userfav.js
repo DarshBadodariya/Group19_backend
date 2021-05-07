@@ -69,7 +69,7 @@ router.get('/myfav/:id', async(req,res) => {
     }
 });
 
-router.get('/removefromfav/:id/:productId',  async(req, res) => {
+router.post('/removefromfav/:id/:productId',  async(req, res) => {
     
     users.findOneAndUpdate(
         { _id: req.params.id },
