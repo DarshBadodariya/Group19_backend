@@ -79,7 +79,7 @@ router.post('/addtocart/:id/:productId',  async(req, res) => {
         if (duplicate) {
             users.findOneAndUpdate(
                 { _id: req.params.id, "cart.id": req.params.productId },
-                { $inc: { "cart.$.quantity": 1 } },
+                { $inc: { "cart.$.quan": 1 } },
                  { new: true },
                 (err, userInfo) => {
                     if (err) return res.json({ success: false, err });
@@ -97,7 +97,7 @@ router.post('/addtocart/:id/:productId',  async(req, res) => {
                         cart: {
                             id: req.params.productId,
                             product:productInfo,
-                            quantity: 1,
+                            quan: 1,
                             date: Date.now()
                         }
                     }
