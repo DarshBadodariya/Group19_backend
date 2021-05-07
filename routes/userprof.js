@@ -133,7 +133,7 @@ router.get('/mycart/:id', async(req,res) => {
     }
 });
 
-router.get('/removefromCart/:id/:productId',  async(req, res) => {
+router.post('/removefromCart/:id/:productId',  async(req, res) => {
     
     users.findOneAndUpdate(
         { _id: req.params.id },
