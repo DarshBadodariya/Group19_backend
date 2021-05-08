@@ -57,6 +57,7 @@ const crypto = require('crypto');
 
     address: {
         type: String,
+        default: ""
     }
     
   },
