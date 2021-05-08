@@ -143,7 +143,8 @@ router.post('/', /*, issignedin, isretailer,*/ (req,res) => {
         quantity: req.body.quantity,
         price: req.body.price,
         dispercent: req.body.dispercent,
-        tags: req.body.tags
+        tags: req.body.tags,
+        imageurl: req.body.imageurl
     });
     
     try{
