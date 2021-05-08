@@ -35,6 +35,7 @@ router.put('/:id', /*, issignedin, isretailer,*/ async (req,res) =>{
                 user.password = upduser.password ? upduser.password : user.password ;
                 user.userinfo = upduser.userinfo ? upduser.userinfo : user.userinfo ;
                 user.purchases = upduser.purchases ? upduser.purchases : user.purchases ;
+                user.address = upduser.address ? upduser.address : user.address ;
                 user.save();
 
                 res.json({ msg: 'user was updated', user});
@@ -62,8 +63,10 @@ router.delete('/:id', /*, issignedin, isretailer,*/ async (req,res) =>{
     }
 });
 
+
 // This post request wiol take the userid and productid 
 // and add the selected item to the users cart
+
 router.post('/addtocart/:id/:productId',  async(req, res) => {
 
     const userInfo = await users.findOne({ _id: req.params.id});
@@ -82,7 +85,7 @@ router.post('/addtocart/:id/:productId',  async(req, res) => {
         if (duplicate) {
             users.findOneAndUpdate(
                 { _id: req.params.id, "cart.id": req.params.productId },
-                { $inc: { "cart.$.quantity": 1 } },
+                { $inc: { "cart.$.quan": 1 } },
                  { new: true },
                 (err, userInfo) => {
                     if (err) return res.json({ success: false, err });
@@ -100,7 +103,7 @@ router.post('/addtocart/:id/:productId',  async(req, res) => {
                         cart: {
                             id: req.params.productId,
                             product:productInfo,
-                            quantity: 1,
+                            quan: 1,
                             date: Date.now()
                         }
                     }
@@ -116,9 +119,11 @@ router.post('/addtocart/:id/:productId',  async(req, res) => {
     
 });
 
+
 // THis rout will fetch the users cart information 
 //if cart is emty then msg 
 //else fetch all the product
+
 router.get('/mycart/:id', async(req,res) => {
 
     const userInfo = await users.findOne({ _id: req.params.id});
@@ -141,6 +146,7 @@ router.get('/mycart/:id', async(req,res) => {
 
 // Remove the perticular product from the cart
 //return the cart info if succesfull 
+
 router.post('/removefromCart/:id/:productId',  async(req, res) => {
     
     users.findOneAndUpdate(

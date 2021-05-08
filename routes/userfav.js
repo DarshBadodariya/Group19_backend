@@ -1,0 +1,89 @@
+const express = require('express');
+const users = require('../models/user');
+const products = require('../models/product');
+
+const router = express.Router();
+
+
+router.post('/addtofav/:id/:productId',  async(req, res) => {
+
+    const userInfo = await users.findOne({ _id: req.params.id});
+    const productInfo = await products.findOne({ _id: req.params.productId});
+    
+        let duplicate = false;
+        userInfo.fav.forEach((item) =>{
+            if (item.id == req.params.productId) {
+                duplicate = true;
+            }
+        })
+        
+       
+        if (duplicate) {
+            
+            return res.json({
+                message: "Product already there"
+            });
+        }
+        
+        else {
+            console.log("else part")
+            users.findOneAndUpdate(
+                { _id: req.params.id },
+                {
+                    $push: {
+                        fav: {
+                            id: req.params.productId,
+                            product:productInfo,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true },
+                (err, userInfo) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json(userInfo.fav)
+                }
+            )
+            
+        }
+    
+});
+
+router.get('/myfav/:id', async(req,res) => {
+
+    const userInfo = await users.findOne({ _id: req.params.id});
+    if(userInfo){
+        const myfav = userInfo.fav;
+        if(myfav!=null){
+            return res.json(myfav);
+            //console.log(myfav);
+        }
+        else{
+            return res.json({ msg: 'fav is empty' });
+            //console.log({msg: 'fav is empty'});
+        }
+    }
+    else{
+        return res.json({msg: 'user not found'});
+        //console.log({msg: "fav is empty"});
+    }
+});
+
+router.post('/removefromfav/:id/:productId',  async(req, res) => {
+    
+    users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+            "$pull":
+                { "fav": { "id": req.params.productId } }
+        },
+        { new: true },
+        (err, userInfo) => {
+            if (err) return res.json({ success: false, err });
+            res.status(200).json(userInfo.fav)
+        }
+     
+    )
+})
+
+module.exports = router

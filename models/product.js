@@ -19,7 +19,7 @@ var productSchema = new mongoose.Schema({
 
     cat: {
         type: String,
-        enum: ["men", "women", "kids"],
+        enum: ["men", "women", "kids", "traditional"],
     },
 
     brandname: {
@@ -50,7 +50,15 @@ var productSchema = new mongoose.Schema({
         type: Array,
         default: [],
         required: true
+    },
+    imageid:{
+        type: String
+    },
+
+    imageurl:{
+        type: String
     }
+    
 });
 
 module.exports = mongoose.model("product",productSchema)
