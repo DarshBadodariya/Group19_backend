@@ -35,6 +35,7 @@ router.put('/:id', /*, issignedin, isretailer,*/ async (req,res) =>{
                 user.password = upduser.password ? upduser.password : user.password ;
                 user.userinfo = upduser.userinfo ? upduser.userinfo : user.userinfo ;
                 user.purchases = upduser.purchases ? upduser.purchases : user.purchases ;
+                user.address = upduser.address ? upduser.address : user.address ;
                 user.save();
 
                 res.json({ msg: 'user was updated', user});
